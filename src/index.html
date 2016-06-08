@@ -1,0 +1,290 @@
+<HTML>
+<TITLE>PI Chart</TITLE>
+<BODY>
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+    }
+
+    .tg .tg-baqh {
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .tg-ud39 {
+        font-weight: bold;
+        color: #036400;
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .tg-w8l0 {
+        font-weight: bold;
+        background-color: #fffc9e;
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .tg-amwm {
+        font-weight: bold;
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .tg-mxrt {
+        font-weight: bold;
+        color: #fe0000;
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .tg-q0p8 {
+        font-weight: bold;
+        color: #329a9d;
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .tg-g5x8 {
+        font-weight: bold;
+        color: #cd9934;
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .tg-scrz {
+        font-weight: bold;
+        background-color: #ffffff;
+        color: #000000;
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .tg-rgq4 {
+        font-weight: bold;
+        color: #34696d;
+        text-align: center;
+        vertical-align: top
+    }
+</style>
+<P><B>Main GPIO Connector</B>
+<P/>
+<table class="tg">
+    <tr>
+        <th class="tg-w8l0">WiringPI Pin</th>
+        <th class="tg-w8l0">Setting</th>
+        <th class="tg-w8l0">Name</th>
+        <th class="tg-w8l0">Header</th>
+        <th class="tg-w8l0">Header</th>
+        <th class="tg-w8l0">Name</th>
+        <th class="tg-w8l0">Setting</th>
+        <th class="tg-w8l0">Wiring PI Pin</th>
+    </tr>
+    <tr>
+        <td class="tg-amwm"></td>
+        <td class="tg-baqh"></td>
+        <td class="tg-mxrt">3.3v</td>
+        <td class="tg-w8l0">1</td>
+        <td class="tg-w8l0">2</td>
+        <td class="tg-mxrt">5v</td>
+        <td class="tg-baqh"></td>
+        <td class="tg-amwm"></td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">8</td>
+        <td class="tg-baqh"><%gpio.8%></td>
+        <td class="tg-q0p8">SDA</td>
+        <td class="tg-w8l0">3</td>
+        <td class="tg-w8l0">4</td>
+        <td class="tg-mxrt">5v</td>
+        <td class="tg-baqh"></td>
+        <td class="tg-amwm"></td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">9</td>
+        <td class="tg-baqh"><%gpio.9%></td>
+        <td class="tg-q0p8">SCL</td>
+        <td class="tg-w8l0">5</td>
+        <td class="tg-w8l0">6</td>
+        <td class="tg-amwm">GND</td>
+        <td class="tg-baqh"></td>
+        <td class="tg-amwm"></td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">7</td>
+        <td class="tg-baqh"><%gpio.7%></td>
+        <td class="tg-ud39">GPIO 7</td>
+        <td class="tg-w8l0">7</td>
+        <td class="tg-w8l0">8</td>
+        <td class="tg-g5x8">TxD</td>
+        <td class="tg-baqh"><%gpio.15%></td>
+        <td class="tg-amwm">15</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm"></td>
+        <td class="tg-baqh"></td>
+        <td class="tg-scrz">GND</td>
+        <td class="tg-w8l0">9</td>
+        <td class="tg-w8l0">10</td>
+        <td class="tg-g5x8">RxD</td>
+        <td class="tg-baqh"><%gpio.10%></td>
+        <td class="tg-amwm">16</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">0</td>
+        <td class="tg-baqh"><%gpio.0%></td>
+        <td class="tg-ud39">GPIO 0</td>
+        <td class="tg-w8l0">11</td>
+        <td class="tg-w8l0">12</td>
+        <td class="tg-ud39">GPIO 1</td>
+        <td class="tg-baqh"><%gpio.1%></td>
+        <td class="tg-amwm">1</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">2</td>
+        <td class="tg-baqh"><%gpio.2%></td>
+        <td class="tg-ud39">GPIO 2</td>
+        <td class="tg-w8l0">13</td>
+        <td class="tg-w8l0">14</td>
+        <td class="tg-amwm">GND</td>
+        <td class="tg-baqh"></td>
+        <td class="tg-amwm"></td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">3</td>
+        <td class="tg-baqh"><%gpio.3%></td>
+        <td class="tg-ud39">GPIO 3</td>
+        <td class="tg-w8l0">15</td>
+        <td class="tg-w8l0">16</td>
+        <td class="tg-ud39">GPIO 4</td>
+        <td class="tg-baqh"><%gpio.4%></td>
+        <td class="tg-amwm">4</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm"></td>
+        <td class="tg-baqh"></td>
+        <td class="tg-mxrt">3.3v</td>
+        <td class="tg-w8l0">17</td>
+        <td class="tg-w8l0">18</td>
+        <td class="tg-ud39">GPIO 5</td>
+        <td class="tg-baqh"><%gpio.5%></td>
+        <td class="tg-amwm">5</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">12</td>
+        <td class="tg-baqh"><%gpio.12%></td>
+        <td class="tg-rgq4">MOSI</td>
+        <td class="tg-w8l0">19</td>
+        <td class="tg-w8l0">20</td>
+        <td class="tg-amwm">GND</td>
+        <td class="tg-baqh"></td>
+        <td class="tg-amwm"></td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">13</td>
+        <td class="tg-baqh"><%gpio.13%></td>
+        <td class="tg-rgq4">MISO</td>
+        <td class="tg-w8l0">21</td>
+        <td class="tg-w8l0">22</td>
+        <td class="tg-ud39">GPIO 6</td>
+        <td class="tg-baqh"><%gpio.6%></td>
+        <td class="tg-amwm">6</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">14</td>
+        <td class="tg-baqh"><%gpio.14%></td>
+        <td class="tg-rgq4">SCLK</td>
+        <td class="tg-w8l0">23</td>
+        <td class="tg-w8l0">24</td>
+        <td class="tg-rgq4">CE 0</td>
+        <td class="tg-baqh"><%gpio.10%></td>
+        <td class="tg-amwm">10</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm"></td>
+        <td class="tg-baqh"></td>
+        <td class="tg-amwm">GND</td>
+        <td class="tg-w8l0">25</td>
+        <td class="tg-w8l0">26</td>
+        <td class="tg-rgq4">CE 1</td>
+        <td class="tg-baqh"><%gpio.11%></td>
+        <td class="tg-amwm">11</td>
+    </tr>
+</table>
+<P><B>Secondary GPIO Connector Rev. 2 Pi Only</B>
+<P/>
+<table class="tg">
+    <tr>
+        <th class="tg-w8l0">WiringPI Pin</th>
+        <th class="tg-w8l0">Setting</th>
+        <th class="tg-w8l0">Name</th>
+        <th class="tg-w8l0">Header</th>
+        <th class="tg-w8l0">Header</th>
+        <th class="tg-w8l0">Name</th>
+        <th class="tg-w8l0">Setting</th>
+        <th class="tg-w8l0">Wiring PI Pin</th>
+    </tr>
+    <tr>
+        <td class="tg-amwm"></td>
+        <td class="tg-baqh"></td>
+        <td class="tg-mxrt">5v</td>
+        <td class="tg-w8l0">1</td>
+        <td class="tg-w8l0">2</td>
+        <td class="tg-mxrt">3.3v</td>
+        <td class="tg-baqh"></td>
+        <td class="tg-amwm"></td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">17</td>
+        <td class="tg-baqh"><%gpio.17%></td>
+        <td class="tg-ud39">GPIO 8</td>
+        <td class="tg-w8l0">3</td>
+        <td class="tg-w8l0">4</td>
+        <td class="tg-ud39">GPIO 9</td>
+        <td class="tg-baqh"><%gpio.9%></td>
+        <td class="tg-amwm">18</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm">19</td>
+        <td class="tg-baqh"><%gpio.19%></td>
+        <td class="tg-ud39">GPIO 10</td>
+        <td class="tg-w8l0">5</td>
+        <td class="tg-w8l0">6</td>
+        <td class="tg-ud39">GPIO 10</td>
+        <td class="tg-baqh"><%gpio.10%></td>
+        <td class="tg-amwm">20</td>
+    </tr>
+    <tr>
+        <td class="tg-amwm"></td>
+        <td class="tg-baqh"></td>
+        <td class="tg-5ncq">GND</td>
+        <td class="tg-w8l0">7</td>
+        <td class="tg-w8l0">8</td>
+        <td class="tg-5ncq">GND</td>
+        <td class="tg-baqh"></td>
+        <td class="tg-amwm">11</td>
+    </tr>
+</BODY>
+</HTML>

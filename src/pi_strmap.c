@@ -47,7 +47,7 @@
 #include "pi_strmap.h"
 #include "pi_utils.h"
 
-typedef struct pi_strmap_pair_struct{
+typedef struct pi_strmap_pair_struct {
     char *key;
     char *value;
 } pi_strmap_pair_t;

@@ -51,11 +51,11 @@ bool parse_arguments(int argc, char *argv[]) {
 
     static struct option long_options[] =
             {
-                    {"daemon", optional_argument, 0, 'd'},
-                    {"port",   optional_argument, 0, 'p'},
+                    {"daemon",    optional_argument, 0, 'd'},
+                    {"port",      optional_argument, 0, 'p'},
                     {"directory", optional_argument, 0, 'f'},
-                    {"help",   optional_argument, 0, '?'},
-                    {0, 0,                        0, 0}
+                    {"help",      optional_argument, 0, '?'},
+                    {0, 0,                           0, 0}
             };
 
     int option_index = 0;
@@ -199,7 +199,7 @@ int main(int argc, const char *argv[]) {
         printf("\n\nPress q [enter] to quit...\n\n");
 
         int keystroke = 0;
-        while (keystroke != 'q'){
+        while (keystroke != 'q') {
             keystroke = getchar();
         }
 

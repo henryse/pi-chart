@@ -79,7 +79,7 @@ void set_service_running(bool value) {
 }
 
 void set_file_directory(char *directory) {
-    if (NULL == file_directory){
+    if (NULL == file_directory) {
         file_directory = pi_string_new(strlen(directory));
     }
 
@@ -88,7 +88,7 @@ void set_file_directory(char *directory) {
 }
 
 const char *get_file_directory() {
-    if (NULL == file_directory){
+    if (NULL == file_directory) {
         return default_directory;
     }
 

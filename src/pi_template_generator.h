@@ -35,18 +35,18 @@ typedef enum {
 } pi_template_error_t;
 
 
-typedef bool ( * function_string_ptr_t )( void *context_ptr,
-                             const char *symbol,
-                             pi_string_ptr value);
+typedef bool ( *function_string_ptr_t )(void *context_ptr,
+                                        const char *symbol,
+                                        pi_string_ptr value);
 
-typedef bool ( * function_boolean_ptr_t )( void *context_ptr,
-                                            const char *symbol,
-                                            bool *value);
+typedef bool ( *function_boolean_ptr_t )(void *context_ptr,
+                                         const char *symbol,
+                                         bool *value);
 
 pi_template_error_t pi_template_generate_output(pi_string_ptr input_buffer,
-                                          pi_string_ptr output_buffer,
-                                          void *context_ptr,
-                                          function_string_ptr_t function_string_ptr,
-                                          function_boolean_ptr_t function_boolean_ptr);
+                                                pi_string_ptr output_buffer,
+                                                void *context_ptr,
+                                                function_string_ptr_t function_string_ptr,
+                                                function_boolean_ptr_t function_boolean_ptr);
 
 #endif //PI_TEMPLATE_GENERATOR_H

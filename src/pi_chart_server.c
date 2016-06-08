@@ -1,4 +1,4 @@
-#include <ntsid.h>/**********************************************************************
+/**********************************************************************
 //    Copyright (c) 2016 Henry Seurer & Samuel Kelly
 //
 //    Permission is hereby granted, free of charge, to any person
@@ -23,6 +23,8 @@
 //    OTHER DEALINGS IN THE SOFTWARE.
 //
 **********************************************************************/
+
+#include <ntsid.h>
 
 #ifndef __MACH__
 #define _POSIX_C_SOURCE 200809L
@@ -95,11 +97,11 @@ size_t http_read_line(int socket, pi_string_ptr buffer) {
 //      process.name     - if the process with the "name" exits
 //                          string:  return pid
 //                          boolean: return true if running and false it not running
-bool function_string( void __unused *context_ptr,
-                      const char *symbol,
-                      pi_string_ptr buffer){
+bool function_string(void __unused *context_ptr,
+                     const char *symbol,
+                     pi_string_ptr buffer) {
 
-    if (strncmp(symbol, "gpio.", 5) == 0){
+    if (strncmp(symbol, "gpio.", 5) == 0) {
         int pin = atoi(&symbol[5]);
         pi_string_append_str(buffer, gpio_get_str((unsigned char) pin));
         return true;
@@ -108,13 +110,12 @@ bool function_string( void __unused *context_ptr,
     return false;
 }
 
-bool function_boolean( void __unused *context_ptr,
-                       const char *symbol,
-                       bool *value){
+bool function_boolean(void __unused *context_ptr,
+                      const char *symbol,
+                      bool *value) {
 
-    if (strncmp(symbol, "gpio.", 5) == 0){
-        if (value)
-        {
+    if (strncmp(symbol, "gpio.", 5) == 0) {
+        if (value) {
             int pin = atoi(&symbol[5]);
             *value = gpio_get_int((unsigned char) pin) != 0;
         }
@@ -124,12 +125,12 @@ bool function_boolean( void __unused *context_ptr,
     return false;
 }
 
-void http_html_clean_string(pi_string_ptr request_path){
+void http_html_clean_string(pi_string_ptr request_path) {
     pi_string_ptr clean_buffer = pi_string_new(pi_string_c_string_length(request_path));
 
-    for (int i = 0; i < pi_string_c_string_length(request_path); i++){
+    for (int i = 0; i < pi_string_c_string_length(request_path); i++) {
         char c = pi_string_c_string(request_path)[i];
-        switch (c){
+        switch (c) {
             case '.':
             case '\\':
             case '?':
@@ -147,8 +148,8 @@ void http_html_clean_string(pi_string_ptr request_path){
     pi_string_delete(clean_buffer, true);
 }
 
-size_t http_html_file_size(FILE *file_p){
-    if (NULL == file_p){
+size_t http_html_file_size(FILE *file_p) {
+    if (NULL == file_p) {
         return 0;
     }
 
@@ -156,7 +157,7 @@ size_t http_html_file_size(FILE *file_p){
     long file_size = ftell(file_p);
     fseek(file_p, 0L, SEEK_SET);
 
-    return (size_t)file_size;
+    return (size_t) file_size;
 }
 
 bool http_html_monitor_page(pi_string_ptr response,
@@ -171,7 +172,7 @@ bool http_html_monitor_page(pi_string_ptr response,
 
     // Check to see if we should load the default html page = index.html
     //
-    if (strcmp(pi_string_c_string(request_path), "/") == 0){
+    if (strcmp(pi_string_c_string(request_path), "/") == 0) {
         pi_string_append_str(request_path, "index");
     }
 
@@ -181,8 +182,7 @@ bool http_html_monitor_page(pi_string_ptr response,
 
     FILE *file_p = fopen(pi_string_c_string(source_file), "r");
 
-    if (NULL != file_p)
-    {
+    if (NULL != file_p) {
         size_t file_size = http_html_file_size(file_p);
 
         // Read in the file:
@@ -190,7 +190,7 @@ bool http_html_monitor_page(pi_string_ptr response,
         char *file_contents = alloca(file_size);
         memory_clear(file_contents, file_size);
 
-        if (fread(file_contents, file_size, sizeof(char), file_p) != 0){
+        if (fread(file_contents, file_size, sizeof(char), file_p) != 0) {
             // Setup buffers.
             //
             pi_string_ptr input_buffer = pi_string_new(file_size + 1);
@@ -198,7 +198,7 @@ bool http_html_monitor_page(pi_string_ptr response,
 
             pi_string_ptr response_body = pi_string_new(file_size + 1);
 
-            pi_template_generate_output(input_buffer, response_body, NULL, function_string, function_boolean );
+            pi_template_generate_output(input_buffer, response_body, NULL, function_string, function_boolean);
 
             pi_string_sprintf(response, "HTTP/1.0 200 OK\r\n");
             pi_string_sprintf(response, "Server: %s\r\n", get_pi_chart_version());
@@ -286,8 +286,7 @@ void http_output_response(pi_string_ptr request_path, pi_strmap_ptr headers, pi_
         http_output_build_info(response);
     }
     else {
-        if (!http_html_monitor_page(response, headers, request_path))
-        {
+        if (!http_html_monitor_page(response, headers, request_path)) {
             http_not_found(response);
         }
     }

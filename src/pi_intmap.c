@@ -34,9 +34,9 @@
 #include "pi_intmap.h"
 #include "pi_utils.h"
 
-typedef struct pi_intmap_pair_struct{
+typedef struct pi_intmap_pair_struct {
     char *key;
-    int  value_int;
+    int value_int;
 } pi_intmap_pair_t;
 
 typedef struct bucket_struct {
@@ -282,4 +282,5 @@ static unsigned long pi_intmap_hash(const char *str) {
 
     return hash;
 }
+
 #pragma clang diagnostic pop

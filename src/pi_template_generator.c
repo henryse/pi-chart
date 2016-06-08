@@ -32,7 +32,7 @@
 
 #define if_stack_depth 32
 
-typedef struct pi_template_generator_struct{
+typedef struct pi_template_generator_struct {
 
     void *context_ptr;
     function_string_ptr_t function_string_ptr;
@@ -47,14 +47,13 @@ typedef struct pi_template_generator_struct{
 } pi_template_generator_t;
 
 
-typedef enum
-{
+typedef enum {
     operator_type_invalid = 0,
     operator_type_variable,
     operator_type_If,
     operator_type_Else,
     operator_type_EndIf,
-}operator_type_t;
+} operator_type_t;
 
 #define OPERATOR_SYMBOL(name) operator_type_##name
 
@@ -85,10 +84,8 @@ void pi_template_generator_destroy(pi_template_generator_t *ptg_context) {
     pi_intmap_delete(ptg_context->symbol_map);
 }
 
-static const char * pi_template_skip_white(const char *pch, const char chDelim)
-{
-    while ( isspace( *pch ) || chDelim == *pch )
-    {
+static const char *pi_template_skip_white(const char *pch, const char chDelim) {
+    while (isspace(*pch) || chDelim == *pch) {
         pch++;
     }
 
@@ -96,17 +93,16 @@ static const char * pi_template_skip_white(const char *pch, const char chDelim)
 }
 
 pi_string_ptr pi_template_get_symbol(const char *begin_tag, char **end_tag) {
-    ASSERT(NULL != end_tag );
+    ASSERT(NULL != end_tag);
 
-    if (NULL == end_tag){
+    if (NULL == end_tag) {
         return NULL;
     }
 
     begin_tag = pi_template_skip_white(begin_tag, ' ');
 
     *end_tag = (char *) begin_tag;
-    while (!isspace( **end_tag ) && '%' != **end_tag && **end_tag)
-    {
+    while (!isspace(**end_tag) && '%' != **end_tag && **end_tag) {
         (*end_tag)++;
     }
 
@@ -123,19 +119,19 @@ bool pi_template_resolve_symbol(pi_template_generator_t *ptg_context,
     operator_type_t operator_type = (operator_type_t) pi_intmap_get_value(ptg_context->symbol_map,
                                                                           pi_string_c_string(symbol_buffer));
 
-    if (operator_type != operator_type_invalid && operator_type != operator_type_variable ){
+    if (operator_type != operator_type_invalid && operator_type != operator_type_variable) {
         return false;
     }
 
-    if (result_buffer){
+    if (result_buffer) {
         pi_string_reset(result_buffer);
     }
 
     bool valid = (*ptg_context->function_string_ptr)(ptg_context->context_ptr,
-                                                               pi_string_c_string(symbol_buffer),
-                                                               result_buffer);
+                                                     pi_string_c_string(symbol_buffer),
+                                                     result_buffer);
 
-    if (valid && operator_type == operator_type_invalid){
+    if (valid && operator_type == operator_type_invalid) {
         pi_intmap_put(ptg_context->symbol_map, pi_string_c_string(symbol_buffer), operator_type_variable);
     }
 
@@ -149,19 +145,19 @@ bool pi_template_test_symbol(pi_template_generator_t *ptg_context,
     operator_type_t operator_type = (operator_type_t) pi_intmap_get_value(ptg_context->symbol_map,
                                                                           pi_string_c_string(symbol_buffer));
 
-    if (operator_type != operator_type_invalid && operator_type != operator_type_variable ){
+    if (operator_type != operator_type_invalid && operator_type != operator_type_variable) {
         return false;
     }
 
-    if (value){
+    if (value) {
         *value = false;
     }
 
     bool valid = (*ptg_context->function_boolean_ptr)(ptg_context->context_ptr,
-                                                                pi_string_c_string(symbol_buffer),
-                                                                value);
+                                                      pi_string_c_string(symbol_buffer),
+                                                      value);
 
-    if (valid && operator_type == operator_type_invalid){
+    if (valid && operator_type == operator_type_invalid) {
         pi_intmap_put(ptg_context->symbol_map, pi_string_c_string(symbol_buffer), operator_type_variable);
     }
 
@@ -171,23 +167,21 @@ bool pi_template_test_symbol(pi_template_generator_t *ptg_context,
 operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
                                           const char *begin_tag,
                                           pi_string_ptr result_buffer,
-                                          bool *response_result)
-{
+                                          bool *response_result) {
     ASSERT(result_buffer != NULL && response_result != NULL);
     ASSERT(*begin_tag == '<' && *(begin_tag + 1) == '%');
 
-    if (result_buffer){
+    if (result_buffer) {
         pi_string_reset(result_buffer);
     }
 
-    if (response_result){
+    if (response_result) {
         *response_result = false;
     }
 
     operator_type_t operator_type = operator_type_invalid;
 
-    if (*begin_tag == '<' && *(begin_tag + 1) == '%')
-    {
+    if (*begin_tag == '<' && *(begin_tag + 1) == '%') {
         //  Move past the '<%' tag marker and any leading white spaces.
         //
         char *end_tag = NULL;
@@ -198,10 +192,10 @@ operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
 
         pi_string_ptr second_symbol = NULL;
 
-        switch (operator_type){
+        switch (operator_type) {
             case operator_type_If:
                 second_symbol = pi_template_get_symbol(end_tag, &end_tag);
-                if (!pi_template_test_symbol(ptg_context, second_symbol, response_result)){
+                if (!pi_template_test_symbol(ptg_context, second_symbol, response_result)) {
                     operator_type = operator_type_invalid;
                 }
                 break;
@@ -214,7 +208,7 @@ operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
                 operator_type = operator_type_variable;
             case operator_type_variable:
             default:
-                if( !pi_template_resolve_symbol(ptg_context, first_symbol, result_buffer) ){
+                if (!pi_template_resolve_symbol(ptg_context, first_symbol, result_buffer)) {
                     operator_type = operator_type_invalid;
                 }
                 break;
@@ -228,16 +222,16 @@ operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
 }
 
 void pi_template_push_if(pi_template_generator_t *ptg_context, bool value) {
-    if (ptg_context->if_stack_top < if_stack_depth){
+    if (ptg_context->if_stack_top < if_stack_depth) {
         ptg_context->if_stack[ptg_context->if_stack_top] = value;
     }
     ptg_context->if_stack_top++;
 }
 
 void pi_template_push_else(pi_template_generator_t *ptg_context) {
-    if (ptg_context->if_stack_top > 0 && ptg_context->if_stack_top < if_stack_depth){
+    if (ptg_context->if_stack_top > 0 && ptg_context->if_stack_top < if_stack_depth) {
         ptg_context->if_stack[ptg_context->if_stack_top - 1] =
-            !ptg_context->if_stack[ptg_context->if_stack_top - 1];
+                !ptg_context->if_stack[ptg_context->if_stack_top - 1];
     }
 }
 
@@ -248,21 +242,21 @@ void pi_template_pop_if(pi_template_generator_t *ptg_context) {
 }
 
 bool pi_template_if_set(pi_template_generator_t *ptg_context) {
-    for (int i = 0; i < ptg_context->if_stack_top; i++){
-        if (!ptg_context->if_stack[i]){
+    for (int i = 0; i < ptg_context->if_stack_top; i++) {
+        if (!ptg_context->if_stack[i]) {
             return false;
         }
     }
     return true;
 }
 
-void pi_template_output(pi_template_generator_t *ptg_context, const char *ptr_in){
-    if (pi_template_if_set(ptg_context)){
+void pi_template_output(pi_template_generator_t *ptg_context, const char *ptr_in) {
+    if (pi_template_if_set(ptg_context)) {
         pi_string_append_str(ptg_context->output_buffer, ptr_in);
     }
 }
 
-void pi_template_output_length(pi_template_generator_t *ptg_context, const char *ptr_in, size_t length){
+void pi_template_output_length(pi_template_generator_t *ptg_context, const char *ptr_in, size_t length) {
     if (pi_template_if_set(ptg_context)) {
         pi_string_append_str_length(ptg_context->output_buffer, ptr_in, length);
     }
@@ -272,12 +266,11 @@ pi_template_error_t pi_template_generate_output(pi_string_ptr input_buffer,
                                                 pi_string_ptr output_buffer,
                                                 void *context_ptr,
                                                 function_string_ptr_t function_string_ptr,
-                                                function_boolean_ptr_t function_boolean_ptr)
-{
+                                                function_boolean_ptr_t function_boolean_ptr) {
     if (NULL == function_string_ptr
         || NULL == function_boolean_ptr
         || NULL == output_buffer
-        || NULL == input_buffer){
+        || NULL == input_buffer) {
         return pie_template_invalid_input;
     }
 
@@ -291,18 +284,17 @@ pi_template_error_t pi_template_generate_output(pi_string_ptr input_buffer,
                                  function_boolean_ptr,
                                  function_string_ptr);
 
-    const char *ptr_in  = pi_string_c_string(input_buffer);
+    const char *ptr_in = pi_string_c_string(input_buffer);
     const char *ptr_EOF = ptr_in + pi_string_c_string_length(input_buffer);
 
-    if ( *ptr_in == '%' )
-    {
+    if (*ptr_in == '%') {
         pi_string_append_char(output_buffer, *ptr_in);
         ptr_in++;
     }
 
     pi_string_ptr symbol_buffer = pi_string_new(64);
 
-    while ( ptr_in < ptr_EOF ) {
+    while (ptr_in < ptr_EOF) {
         //  Look for '%' and then see if we have a "<%"
         //  Initialization would have ensured that we wont crash...
         //
@@ -323,15 +315,14 @@ pi_template_error_t pi_template_generate_output(pi_string_ptr input_buffer,
         pi_template_output_length(&ptg_context, ptr_in, length_to_append);
 
         ptr_in += length_to_append;
-        if (*ptr_tag != '<')
-        {
+        if (*ptr_tag != '<') {
             continue;
         }
 
         bool bool_value = false;
         operator_type_t operator_type = pi_template_lookup_symbol(&ptg_context, ptr_in, symbol_buffer,
                                                                   &bool_value);
-        switch(operator_type){
+        switch (operator_type) {
             case operator_type_invalid:
             default:
                 break;
@@ -354,19 +345,18 @@ pi_template_error_t pi_template_generate_output(pi_string_ptr input_buffer,
 
         // Skip over opening <%
         //
-        if (*ptr_in == '<' && *(ptr_in + 1) == '%'){
+        if (*ptr_in == '<' && *(ptr_in + 1) == '%') {
             ptr_in += 2;
         }
 
         // Skip to closing %>
         //
-        while ('%' != *ptr_in && *ptr_in)
-        {
+        while ('%' != *ptr_in && *ptr_in) {
             ptr_in++;
         }
 
-        if (*ptr_in == '%' && *(ptr_in + 1) == '>'){
-            ptr_in+=2;
+        if (*ptr_in == '%' && *(ptr_in + 1) == '>') {
+            ptr_in += 2;
         }
     }
     pi_string_delete(symbol_buffer, true);

@@ -68,3 +68,5 @@ set(SOURCE_FILES
         pi_chart_server.h pi_chart_settings.c pi_chart_settings.h pi_chart_gpio.c pi_chart_gpio.h pi_intmap.c pi_intmap.h pi_intmap.c pi_intmap.h)
 
 add_executable(pi-chart ${SOURCE_FILES})
+
+install(TARGETS pi-chart DESTINATION bin)

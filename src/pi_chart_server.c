@@ -50,15 +50,15 @@
 #include "pi_template_generator.h"
 #include "pi_chart_gpio.h"
 
-size_t http_read_line(int socket, pi_string_ptr buffer) {
-    if (NULL == buffer) {
+size_t http_read_line(int socket, pi_string_ptr output_string) {
+    if (NULL == output_string) {
         return 0;
     }
 
-    // Free the buffer because the expectation is that we are reading in a
+    // Free the output_string because the expectation is that we are reading in a
     // whole new line.
     //
-    pi_string_reset(buffer);
+    pi_string_reset(output_string);
 
     // Now we read in the data:
     //
@@ -78,17 +78,15 @@ size_t http_read_line(int socket, pi_string_ptr buffer) {
                     c = '\n';
                 }
             }
-            pi_string_append_char(buffer, c);
+            pi_string_append_char(output_string, c);
         }
         else {
             c = '\n';
         }
     }
 
-    return pi_string_c_string_length(buffer);
+    return pi_string_c_string_length(output_string);
 }
-
-
 
 // The following symbols should be supported:
 //      gpoi.#           - where the # is the pin number (1(true), 0(false))
@@ -99,11 +97,11 @@ size_t http_read_line(int socket, pi_string_ptr buffer) {
 //                          boolean: return true if running and false it not running
 bool function_string(void __unused *context_ptr,
                      const char *symbol,
-                     pi_string_ptr buffer) {
+                     pi_string_ptr output_string) {
 
     if (strncmp(symbol, "gpio.", 5) == 0) {
         int pin = atoi(&symbol[5]);
-        pi_string_append_str(buffer, gpio_get_str((unsigned char) pin));
+        pi_string_append_str(output_string, gpio_get_str((unsigned char) pin));
         return true;
     }
 

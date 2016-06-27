@@ -28,5 +28,6 @@
 #define VERSION_CONFIG_H
 
 #define PI_CHART_VERSION "@PI_CHART_VERSION@"
+#cmakedefine BCMHOST 1
 
 #endif // VERSION_CONFIG_H

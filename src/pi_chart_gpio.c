@@ -24,12 +24,19 @@
 //
 **********************************************************************/
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+#pragma ide diagnostic ignored "UnusedImportStatement"
 #include "pi_chart_gpio.h"
 #include "pi_utils.h"
+#include "version_config.h"
 
-#ifndef __arm__
-// This allows us to debug on the Mac and switch emulation off on the Raspberry PI.
+// Checking to see if we are on a Raspberry PI
+//
+#ifndef BCMHOST
+
 #define ENABLE_PI_EMULATOR 1
+
 #endif
 
 #ifndef ENABLE_PI_EMULATOR
@@ -89,3 +96,4 @@ gpio_signal gpio_set_int(unsigned char pin, gpio_signal value) {
 
     return result;
 }
+#pragma clang diagnostic pop

@@ -34,6 +34,18 @@ set(PI_CHART_VERSION "pi-chart-version-v1.0.0")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_C_FLAGS "-std=gnu99")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    if(DEFINED BCMHOST)
+        set(CMAKE_C_FLAGS "-std=gnu99 -lwiringPi -pthread -lrt")
+    else()
+        set(CMAKE_C_FLAGS "-std=gnu99 -pthread -lrt")
+    endif()
+endif ()
+
+# Set The correct compiler
+#
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_C_FLAGS "-std=gnu99")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(CMAKE_C_FLAGS "-std=gnu99 -lwiringPi -pthread -lrt")
 endif ()
 

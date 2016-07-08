@@ -49,6 +49,8 @@
 #include "pi_strmap.h"
 #include "pi_template_generator.h"
 #include "pi_chart_gpio.h"
+#include "pi_mem_info.h"
+#include "pi_process.h"
 
 size_t http_read_line(int socket, pi_string_ptr output_string) {
     if (NULL == output_string) {
@@ -90,19 +92,32 @@ size_t http_read_line(int socket, pi_string_ptr output_string) {
 
 // The following symbols should be supported:
 //      gpoi.#           - where the # is the pin number (1(true), 0(false))
-//      pi.memory        - total memory for the computer
-//      pi.memory_free   - total free memory on the computer
+//      meminfo.MemTotal - total memory for the computer
+//      meminfo.MemFree  - total free memory on the computer
 //      process.name     - if the process with the "name" exits
 //                          string:  return pid
 //                          boolean: return true if running and false it not running
+
+const char *gpio_tag = "gpio.";
+const char *mem_info_tag = "meminfo.";
+const char *process_tag = "process.";
+
+bool pi_chart_compare_tag(const char *symbol, const char *tag){
+    return strncmp(symbol, tag, strlen(tag)) == 0;
+}
+
 bool function_string(void __unused *context_ptr,
                      const char *symbol,
                      pi_string_ptr output_string) {
 
-    if (strncmp(symbol, "gpio.", 5) == 0) {
+    if (pi_chart_compare_tag(symbol, gpio_tag)) {
         int pin = atoi(&symbol[5]);
         pi_string_append_str(output_string, gpio_get_str((unsigned char) pin));
         return true;
+    }
+
+    if (pi_chart_compare_tag(symbol, mem_info_tag)) {
+        return pi_mem_info_get_attribute(output_string, symbol[strlen(mem_info_tag)]);
     }
 
     return false;
@@ -118,6 +133,10 @@ bool function_boolean(void __unused *context_ptr,
             *value = gpio_get_int((unsigned char) pin) != 0;
         }
         return true;
+    }
+
+    if (pi_chart_compare_tag(symbol, process_tag)) {
+        return pi_process_find(value, symbol[strlen(mem_info_tag)]);
     }
 
     return false;

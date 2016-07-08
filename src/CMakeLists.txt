@@ -65,7 +65,7 @@ set(SOURCE_FILES
         pi_strmap.c
         pi_strmap.h
         pi_chart_server.c
-        pi_chart_server.h pi_chart_settings.c pi_chart_settings.h pi_chart_gpio.c pi_chart_gpio.h pi_intmap.c pi_intmap.h pi_intmap.c pi_intmap.h)
+        pi_chart_server.h pi_chart_settings.c pi_chart_settings.h pi_chart_gpio.c pi_chart_gpio.h pi_intmap.c pi_intmap.h pi_intmap.c pi_intmap.h pi_mem_info.c pi_mem_info.h pi_process.c pi_process.h)
 
 add_executable(pi-chart ${SOURCE_FILES})
 

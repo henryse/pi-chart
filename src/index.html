@@ -89,6 +89,15 @@
         vertical-align: top
     }
 </style>
+<P>
+    <B>Memory: </B> <%meminfo.MemTotal%><BR>
+    <%if process.name %>
+    <B>Process Found</B>
+    <%else%>
+    <B>Process NOT Found</B>
+    <%endif%>
+
+</P>
 <P><B>Main GPIO Connector</B>
 <P/>
 <table class="tg">

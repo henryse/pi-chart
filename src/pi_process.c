@@ -30,5 +30,13 @@
 bool pi_process_find(bool *value, const char symbol) {
     *value = false;
     // TODO: find the process name in the process list, if you find it then set value=true else false...
+    // Should this be case insensitive?  Not sure.
+
+#ifdef __MACH__
+    // Mac OS Emulator code
+#else
+    // Linux
+#endif
+
     return false;
 }

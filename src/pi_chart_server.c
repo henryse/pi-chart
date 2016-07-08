@@ -111,13 +111,13 @@ bool function_string(void __unused *context_ptr,
                      pi_string_ptr output_string) {
 
     if (pi_chart_compare_tag(symbol, gpio_tag)) {
-        int pin = atoi(&symbol[5]);
+        int pin = atoi(&symbol[strlen(gpio_tag)]);
         pi_string_append_str(output_string, gpio_get_str((unsigned char) pin));
         return true;
     }
 
     if (pi_chart_compare_tag(symbol, mem_info_tag)) {
-        return pi_mem_info_get_attribute(output_string, symbol[strlen(mem_info_tag)]);
+        return pi_mem_info_get_attribute(output_string, symbol + strlen(mem_info_tag));
     }
 
     return false;

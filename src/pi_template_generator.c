@@ -32,6 +32,9 @@
 
 #define if_stack_depth 32
 
+// TODO: change <%symbol%> to <%=symbol%> for output
+// the <%= will be defined as "output" symbol here.
+
 typedef struct pi_template_generator_struct {
 
     void *context_ptr;

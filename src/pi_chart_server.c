@@ -24,8 +24,6 @@
 //
 **********************************************************************/
 
-#include <ntsid.h>
-
 #ifndef __MACH__
 #define _POSIX_C_SOURCE 200809L
 #include <strings.h>

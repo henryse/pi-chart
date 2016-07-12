@@ -41,14 +41,6 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     endif()
 endif ()
 
-# Set The correct compiler
-#
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(CMAKE_C_FLAGS "-std=gnu99")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(CMAKE_C_FLAGS "-std=gnu99 -lwiringPi -pthread -lrt")
-endif ()
-
 # Versioning
 #
 configure_file(version_config.h.in ${CMAKE_BINARY_DIR}/generated/version_config.h)

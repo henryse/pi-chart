@@ -202,7 +202,7 @@ bool http_html_monitor_page(pi_string_ptr response,
 
         // Read in the file:
         //
-        char *file_contents = alloca(file_size);
+        char *file_contents = memory_alloc(file_size);
         memory_clear(file_contents, file_size);
 
         if (fread(file_contents, file_size, sizeof(char), file_p) != 0) {
@@ -215,6 +215,8 @@ bool http_html_monitor_page(pi_string_ptr response,
 
             pi_template_generate_output(input_buffer, response_body, NULL, function_string, function_boolean);
 
+            // Output the header
+            //
             pi_string_sprintf(response, "HTTP/1.0 200 OK\r\n");
             pi_string_sprintf(response, "Server: %s\r\n", get_pi_chart_version());
             pi_string_sprintf(response, "Content-Type: text/html\r\n");
@@ -226,6 +228,10 @@ bool http_html_monitor_page(pi_string_ptr response,
             pi_string_delete(input_buffer, true);
             success = true;
         }
+
+        // Free memory used to store file.
+        //
+        memory_free(file_contents);
     }
 
     pi_string_delete(source_file, true);

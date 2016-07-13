@@ -52,7 +52,7 @@ long long timer_diff_minutes(struct timespec start_time);
 #if !defined(NDEBUG)
 #define ASSERT(x)  {if (!(x)){log_message(LOG_ALERT, __FUNCTION__, __FILE__, __LINE__, "Assert Fired" );}}
 #else
-#define ASSERT(context, x) ((void)0)
+#define ASSERT(x) ((void)0)
 #endif
 
 #define ERROR_LOG(...) log_message(LOG_CRIT, __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__ )

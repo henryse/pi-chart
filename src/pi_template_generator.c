@@ -29,7 +29,6 @@
 #include "pi_template_generator.h"
 #include "pi_utils.h"
 #include "pi_intmap.h"
-
 #define if_stack_depth 32
 
 // TODO: change <%symbol%> to <%=symbol%> for output

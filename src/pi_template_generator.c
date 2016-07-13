@@ -31,9 +31,6 @@
 #include "pi_intmap.h"
 #define if_stack_depth 32
 
-// TODO: change <%symbol%> to <%=symbol%> for output
-// the <%= will be defined as "output" symbol here.
-
 typedef struct pi_template_generator_struct {
 
     void *context_ptr;
@@ -172,6 +169,9 @@ operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
                                           bool *response_result) {
     ASSERT(result_buffer != NULL && response_result != NULL);
     ASSERT(*begin_tag == '<' && *(begin_tag + 1) == '%');
+
+    // TODO: change <%symbol%> to <%=symbol%> for output
+    // the <%= will be defined as "output" symbol here.
 
     if (result_buffer) {
         pi_string_reset(result_buffer);

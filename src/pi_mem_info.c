@@ -28,7 +28,7 @@
 bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribute) {
     pi_string_sprintf(output_string, "%s", attribute);
 
-    // TODO: need to return the actual Value.  The values can be found in
+    // TODO(CHART-2): need to return the actual Value.  The values can be found in
     // cat /proc/meminfo on linux and we need to find the same for the emulator.
     // for the emulator we should use the local /proc/meminfo file
 

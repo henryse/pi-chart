@@ -29,7 +29,7 @@
 
 bool pi_process_find(bool *value, const char symbol) {
     *value = false;
-    // TODO: find the process name in the process list, if you find it then set value=true else false...
+    // TODO(CHART-3): find the process name in the process list, if you find it then set value=true else false...
     // Should this be case insensitive?  Not sure.
 
 #ifdef __MACH__

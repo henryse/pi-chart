@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-release_dir=$(pwd)/build/relase
+release_dir=$(pwd)/build/release
 debug_dir=$(pwd)/build/debug
 
 if [ ! -d "$release_dir" ]; then

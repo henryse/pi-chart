@@ -141,7 +141,7 @@ bool function_boolean(void __unused *context_ptr,
 }
 
 void http_html_clean_string(pi_string_ptr request_path) {
-    pi_string_ptr clean_buffer = pi_string_new(pi_string_c_string_length(request_path));
+    pi_string_ptr clean_buffer = pi_string_new(pi_string_c_buffer_size(request_path));
 
     for (int i = 0; i < pi_string_c_string_length(request_path); i++) {
         char c = pi_string_c_string(request_path)[i];

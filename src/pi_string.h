@@ -74,4 +74,8 @@ void pi_string_sprintf(pi_string_ptr pi_string, const char *fmt, ...);
 //
 #define pi_string_c_string_length(pi_string) ((pi_string)->position)
 
+// Returns the size of the allocated buffer
+//
+#define pi_string_c_buffer_size(pi_string) ((pi_string)->size)
+
 #endif // PI_STRING_H

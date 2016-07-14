@@ -40,6 +40,7 @@ pi_string_ptr pi_string_new(size_t size) {
     pi_string_ptr pi_string = (pi_string_ptr) malloc(sizeof(pi_string_t));
     if (pi_string) {
         memory_clear(pi_string, sizeof(pi_string_t));
+        size =  max(size, 4);
 
         pi_string->size = size;
         pi_string->c_string = (char *) malloc(size);
@@ -98,7 +99,7 @@ void pi_string_append_char(pi_string_ptr pi_string, const char ch) {
         return;
     }
 
-    if (pi_string->position == pi_string->size) {
+    if (pi_string->position == pi_string->size - 1) {
         string_buffer_double_size(pi_string);
     }
 

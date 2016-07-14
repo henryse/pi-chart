@@ -235,6 +235,10 @@ bool http_html_monitor_page(pi_string_ptr response,
         // Free memory used to store file.
         //
         memory_free(file_contents);
+
+        // Close the file
+        //
+        fclose(file_p);
     }
     else {
         ERROR_LOG("Unable to open file %s", pi_string_c_string(source_file));

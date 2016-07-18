@@ -52,7 +52,10 @@ typedef enum {
     operator_type_If,
     operator_type_Else,
     operator_type_EndIf,
+    operator_type_output,
 } operator_type_t;
+
+operator_type_t pi_template_get_operator_type(pi_intmap_ptr symbol_map, char *symbol_str);
 
 #define OPERATOR_SYMBOL(name) operator_type_##name
 
@@ -72,6 +75,7 @@ void pi_template_generator_create(pi_template_generator_t *ptg_context,
     pi_intmap_put(ptg_context->symbol_map, "If", OPERATOR_SYMBOL(If));
     pi_intmap_put(ptg_context->symbol_map, "Else", OPERATOR_SYMBOL(Else));
     pi_intmap_put(ptg_context->symbol_map, "EndIf", OPERATOR_SYMBOL(EndIf));
+    pi_intmap_put(ptg_context->symbol_map, "=", OPERATOR_SYMBOL(output));
 
     ptg_context->context_ptr = context_ptr;
     ptg_context->function_string_ptr = function_string_ptr;
@@ -98,11 +102,27 @@ pi_string_ptr pi_template_get_symbol(const char *begin_tag, char **end_tag) {
         return NULL;
     }
 
+    // Skip white space at start of the string.
+    //
     begin_tag = pi_template_skip_white(begin_tag, ' ');
 
+    // OK now from here on out lets determine if we see a "symbol" +-% etc or are we
+    // looking an alpha numeric value?
+    //
     *end_tag = (char *) begin_tag;
-    while (!isspace(**end_tag) && '%' != **end_tag && **end_tag) {
+
+    // Check to see if we see symbol
+    //
+    if (!isalnum(**end_tag)){
+        // Huh, it must be something special, we only take symbols one at a time.
+        //
         (*end_tag)++;
+    }
+    else {
+        // We are good to go either this is a number of a symbol.
+        while (!isspace(**end_tag) && '%' != **end_tag && **end_tag) {
+            (*end_tag)++;
+        }
     }
 
     pi_string_ptr symbol = pi_string_new(*end_tag - begin_tag);
@@ -118,20 +138,22 @@ bool pi_template_resolve_symbol(pi_template_generator_t *ptg_context,
     operator_type_t operator_type = (operator_type_t) pi_intmap_get_value(ptg_context->symbol_map,
                                                                           pi_string_c_string(symbol_buffer));
 
-    if (operator_type != operator_type_invalid && operator_type != operator_type_variable) {
-        return false;
-    }
+    bool valid = false;
 
-    if (result_buffer) {
-        pi_string_reset(result_buffer);
-    }
+    if ( operator_type == operator_type_invalid || operator_type == operator_type_variable) {
 
-    bool valid = (*ptg_context->function_string_ptr)(ptg_context->context_ptr,
-                                                     pi_string_c_string(symbol_buffer),
-                                                     result_buffer);
+        if (result_buffer) {
+            pi_string_reset(result_buffer);
+        }
 
-    if (valid && operator_type == operator_type_invalid) {
-        pi_intmap_put(ptg_context->symbol_map, pi_string_c_string(symbol_buffer), operator_type_variable);
+        valid = (*ptg_context->function_string_ptr)(ptg_context->context_ptr,
+                                                         pi_string_c_string(symbol_buffer),
+                                                         result_buffer);
+
+        if (valid && operator_type == operator_type_invalid) {
+            pi_intmap_put(ptg_context->symbol_map, pi_string_c_string(symbol_buffer), operator_type_variable);
+        }
+
     }
 
     return valid;
@@ -144,23 +166,32 @@ bool pi_template_test_symbol(pi_template_generator_t *ptg_context,
     operator_type_t operator_type = (operator_type_t) pi_intmap_get_value(ptg_context->symbol_map,
                                                                           pi_string_c_string(symbol_buffer));
 
-    if (operator_type != operator_type_invalid && operator_type != operator_type_variable) {
-        return false;
-    }
+    bool valid = false;
 
-    if (value) {
-        *value = false;
-    }
+    if ( operator_type == operator_type_invalid || operator_type == operator_type_variable) {
 
-    bool valid = (*ptg_context->function_boolean_ptr)(ptg_context->context_ptr,
-                                                      pi_string_c_string(symbol_buffer),
-                                                      value);
+        if (value) {
+            *value = false;
+        }
 
-    if (valid && operator_type == operator_type_invalid) {
-        pi_intmap_put(ptg_context->symbol_map, pi_string_c_string(symbol_buffer), operator_type_variable);
+        valid = (*ptg_context->function_boolean_ptr)(ptg_context->context_ptr,
+                                                          pi_string_c_string(symbol_buffer),
+                                                          value);
+
+        if (valid && operator_type == operator_type_invalid) {
+            pi_intmap_put(ptg_context->symbol_map, pi_string_c_string(symbol_buffer), operator_type_variable);
+        }
+
     }
 
     return valid;
+}
+
+operator_type_t pi_template_get_operator_type(pi_intmap_ptr symbol_map, char *symbol_str) {
+
+    operator_type_t operator_type = (operator_type_t) pi_intmap_get_value(symbol_map,symbol_str);
+
+    return operator_type;
 }
 
 operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
@@ -169,9 +200,6 @@ operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
                                           bool *response_result) {
     ASSERT(result_buffer != NULL && response_result != NULL);
     ASSERT(*begin_tag == '<' && *(begin_tag + 1) == '%');
-
-    // TODO(CHART-1): change <%symbol%> to <%=symbol%> for output
-    // the <%= will be defined as "output" symbol here.
 
     if (result_buffer) {
         pi_string_reset(result_buffer);
@@ -189,8 +217,9 @@ operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
         char *end_tag = NULL;
         pi_string_ptr first_symbol = pi_template_get_symbol(begin_tag + 2, &end_tag);
 
-        operator_type = (operator_type_t) pi_intmap_get_value(ptg_context->symbol_map,
+        operator_type = pi_template_get_operator_type(ptg_context->symbol_map,
                                                               pi_string_c_string(first_symbol));
+
 
         pi_string_ptr second_symbol = NULL;
 
@@ -206,14 +235,24 @@ operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
             case operator_type_EndIf:
                 break;
 
-            case operator_type_invalid:
-                operator_type = operator_type_variable;
+            case operator_type_output:
+                second_symbol = pi_template_get_symbol(end_tag, &end_tag);
+                if (!pi_template_resolve_symbol(ptg_context, second_symbol, result_buffer)) {
+                    operator_type = operator_type_invalid;
+                }
+                break;
+
             case operator_type_variable:
-            default:
                 if (!pi_template_resolve_symbol(ptg_context, first_symbol, result_buffer)) {
                     operator_type = operator_type_invalid;
                 }
                 break;
+
+            case operator_type_invalid:
+            default:
+                ERROR_LOG("Unknown symbol or operator: %s", pi_string_c_string(first_symbol));
+                break;
+
         }
 
         pi_string_delete(first_symbol, true);
@@ -329,6 +368,7 @@ pi_template_error_t pi_template_generate_output(pi_string_ptr input_buffer,
             default:
                 break;
             case operator_type_variable:
+            case operator_type_output:
                 pi_template_output(&ptg_context, pi_string_c_string(symbol_buffer));
                 break;
 

@@ -90,7 +90,7 @@
     }
 </style>
 <P>
-    <B>Memory: </B> <%meminfo.MemTotal%><BR>
+    <B>Memory: </B> <%=meminfo.MemTotal%><BR> <%= meminfo.Dirty%><BR>
     <%if process.name %>
     <B>Process Found</B>
     <%else%>

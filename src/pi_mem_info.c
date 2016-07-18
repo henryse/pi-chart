@@ -24,9 +24,13 @@
 //
 **********************************************************************/
 
+#include <memory.h>
+#include <stdlib.h>
 #include "pi_mem_info.h"
+#include "stdio.h"
+#include "pi_utils.h"
+
 bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribute) {
-    pi_string_sprintf(output_string, "%s", attribute);
 
     // TODO(CHART-2): need to return the actual Value.  The values can be found in
     // cat /proc/meminfo on linux and we need to find the same for the emulator.
@@ -34,6 +38,32 @@ bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribut
 
     #ifdef __MACH__
         // Mac OS Emulator code
+
+
+    FILE *fp = fopen("./proc/meminfo", "r");
+
+    if(fp == 0) {
+        ERROR_LOG("Value not found: %s", attribute);
+        return false;
+    }
+
+    char buffer[255];
+    memory_clear(buffer, sizeof(buffer));
+
+    char *ptr_to_token = NULL;
+
+    while(*fgets(buffer, 255, fp) != EOF){
+        ptr_to_token = strtok(buffer, ": ");
+        if(strcmp(ptr_to_token,attribute) == 0) {
+            fclose(fp);
+            pi_string_append_str(output_string, strtok(NULL, ": "));
+            return true;
+        }
+        memory_clear(buffer, sizeof(buffer));
+    }
+
+    fclose(fp);
+
     #else
         // Linux
     #endif

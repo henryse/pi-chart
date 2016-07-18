@@ -1,0 +1,104 @@
+/* -------------------------------
+GENERAL
+----------------------------------*/
+.wrapper{
+    width: 50%;
+    max-width: 11000px;
+    margin: 0 auto;
+}
+/*End of Section*/
+
+.h3{
+    text-align: center;
+}
+
+/*----------------------------------
+CSS in this section is with regards to the tables
+------------------------------------*/
+.tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.tg td {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+}
+
+.tg th {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+}
+
+.tg .tg-baqh {
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-ud39 {
+    font-weight: bold;
+    color: #036400;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-w8l0 {
+    font-weight: bold;
+    background-color: skyblue;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-amwm {
+    font-weight: bold;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-mxrt {
+    font-weight: bold;
+    color: #fe0000;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-q0p8 {
+    font-weight: bold;
+    color: #329a9d;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-g5x8 {
+    font-weight: bold;
+    color: #cd9934;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-scrz {
+    font-weight: bold;
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-rgq4 {
+    font-weight: bold;
+    color: #34696d;
+    text-align: center;
+    vertical-align: top
+}
+/*End of Section*/

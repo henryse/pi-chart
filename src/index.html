@@ -1,106 +1,35 @@
 <HTML>
-<TITLE>PI Chart</TITLE>
+    <head>
+        <TITLE>Pi Chart</TITLE>
+        <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    </head>
 <BODY>
-<style type="text/css">
-    .tg {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-
-    .tg td {
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        padding: 10px 5px;
-        border-style: solid;
-        border-width: 1px;
-        overflow: hidden;
-        word-break: normal;
-    }
-
-    .tg th {
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        font-weight: normal;
-        padding: 10px 5px;
-        border-style: solid;
-        border-width: 1px;
-        overflow: hidden;
-        word-break: normal;
-    }
-
-    .tg .tg-baqh {
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-ud39 {
-        font-weight: bold;
-        color: #036400;
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-w8l0 {
-        font-weight: bold;
-        background-color: #fffc9e;
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-amwm {
-        font-weight: bold;
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-mxrt {
-        font-weight: bold;
-        color: #fe0000;
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-q0p8 {
-        font-weight: bold;
-        color: #329a9d;
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-g5x8 {
-        font-weight: bold;
-        color: #cd9934;
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-scrz {
-        font-weight: bold;
-        background-color: #ffffff;
-        color: #000000;
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-rgq4 {
-        font-weight: bold;
-        color: #34696d;
-        text-align: center;
-        vertical-align: top
-    }
-</style>
-<P>
-    <B>Memory: </B> <%=meminfo.MemTotal%><BR> <%= meminfo.Dirty%><BR>
-    <%If process.name %>
-    <B>Process Found</B>
-    <%Else%>
-    <B>Process NOT Found</B>
-    <%EndIf%>
-
-</P>
-<P><B>Main GPIO Connector</B>
-<P/>
+<div class="wrapper">
+    <table class="tg">
+        <caption><H3>Main GPIO Connector</H3></caption>
+            <tr>
+                <th class="tg-w8l0">Total Memory</th>
+                <th class="tg-w8l0">Memory Free</th>
+                <th class="tg-w8l0">Memory Available</th>
+                <th class="tg-w8l0">Buffers</th>
+                <th class="tg-w8l0">Cached</th>
+                <th class="tg-w8l0">SwapCached</th>
+                <th class="tg-w8l0">Active</th>
+                <th class="tg-w8l0">Inactive</th>
+            </tr>
+            <tr>
+                <th class="tg-baqh"><%=meminfo.MemTotal%></th>
+                <th class="tg-baqh"><%=meminfo.MemFree%></th>
+                <th class="tg-baqh"><%=meminfo.MemAvailable%></th>
+                <th class="tg-baqh"><%=meminfo.Buffers%></th>
+                <th class="tg-baqh"><%=meminfo.Cached%></th>
+                <th class="tg-baqh"><%=meminfo.SwapCached%></th>
+                <th class="tg-baqh"><%=meminfo.Active%></th>
+                <th class="tg-baqh"><%=meminfo.Inactive%></th>
+            </tr>
+    </table>
 <table class="tg">
+    <caption><H3>Main GPIO Connector</H3></caption>
     <tr>
         <th class="tg-w8l0">WiringPI Pin</th>
         <th class="tg-w8l0">Setting</th>
@@ -242,9 +171,8 @@
         <td class="tg-amwm">11</td>
     </tr>
 </table>
-<P><B>Secondary GPIO Connector Rev. 2 Pi Only</B>
-<P/>
 <table class="tg">
+    <caption><H3>Main GPIO Connector</H3></caption>
     <tr>
         <th class="tg-w8l0">WiringPI Pin</th>
         <th class="tg-w8l0">Setting</th>
@@ -295,5 +223,7 @@
         <td class="tg-baqh"></td>
         <td class="tg-amwm">11</td>
     </tr>
+    </table>
+    </div>
 </BODY>
 </HTML>

@@ -146,7 +146,6 @@ void http_html_clean_string(pi_string_ptr request_path) {
     for (int i = 0; i < pi_string_c_string_length(request_path); i++) {
         char c = pi_string_c_string(request_path)[i];
         switch (c) {
-            case '.':
             case '\\':
             case '?':
             case '!':
@@ -188,12 +187,12 @@ bool http_html_monitor_page(pi_string_ptr response,
     // Check to see if we should load the default html page = index.html
     //
     if (strcmp(pi_string_c_string(request_path), "/") == 0) {
-        pi_string_append_str(request_path, "index");
+        pi_string_append_str(request_path, "index.html");
     }
 
     // Build file name
     pi_string_ptr source_file = pi_string_new(pi_string_c_string_length(request_path) + 32);
-    pi_string_sprintf(source_file, "%s%s.html", get_file_directory(), pi_string_c_string(request_path));
+    pi_string_sprintf(source_file, "%s%s", get_file_directory(), pi_string_c_string(request_path));
 
     FILE *file_p = fopen(pi_string_c_string(source_file), "r");
 

@@ -55,8 +55,6 @@ typedef enum {
     operator_type_output,
 } operator_type_t;
 
-operator_type_t pi_template_get_operator_type(pi_intmap_ptr symbol_map, char *symbol_str);
-
 #define OPERATOR_SYMBOL(name) operator_type_##name
 
 void pi_template_generator_create(pi_template_generator_t *ptg_context,
@@ -187,13 +185,6 @@ bool pi_template_test_symbol(pi_template_generator_t *ptg_context,
     return valid;
 }
 
-operator_type_t pi_template_get_operator_type(pi_intmap_ptr symbol_map, char *symbol_str) {
-
-    operator_type_t operator_type = (operator_type_t) pi_intmap_get_value(symbol_map,symbol_str);
-
-    return operator_type;
-}
-
 operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
                                           const char *begin_tag,
                                           pi_string_ptr result_buffer,
@@ -217,9 +208,8 @@ operator_type_t pi_template_lookup_symbol(pi_template_generator_t *ptg_context,
         char *end_tag = NULL;
         pi_string_ptr first_symbol = pi_template_get_symbol(begin_tag + 2, &end_tag);
 
-        operator_type = pi_template_get_operator_type(ptg_context->symbol_map,
+        operator_type = (operator_type_t) pi_intmap_get_value(ptg_context->symbol_map,
                                                               pi_string_c_string(first_symbol));
-
 
         pi_string_ptr second_symbol = NULL;
 

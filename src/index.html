@@ -91,11 +91,11 @@
 </style>
 <P>
     <B>Memory: </B> <%=meminfo.MemTotal%><BR> <%= meminfo.Dirty%><BR>
-    <%if process.name %>
+    <%If process.name %>
     <B>Process Found</B>
-    <%else%>
+    <%Else%>
     <B>Process NOT Found</B>
-    <%endif%>
+    <%EndIf%>
 
 </P>
 <P><B>Main GPIO Connector</B>

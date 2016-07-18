@@ -38,5 +38,5 @@ bool pi_process_find(bool *value, const char symbol) {
     // Linux
 #endif
 
-    return false;
+    return true;
 }

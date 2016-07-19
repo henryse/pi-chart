@@ -29,17 +29,21 @@
 #include "stdio.h"
 #include "pi_utils.h"
 
+const char *pi_mem_info_get_file_name(){
+#ifdef __MACH__
+    // Mac OS Emulator code
+    //
+    return "./proc/meminfo";
+#else
+    // Debian meminfo file:
+    //
+    return "/proc/meminfo";
+#endif
+}
+
 bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribute) {
 
-    #ifdef __MACH__
-        // Mac OS Emulator code
-        //
-        const char *meminfo_file_name = "./proc/meminfo";
-    #else
-        const char *meminfo_file_name = "/proc/meminfo";
-    #endif
-
-    FILE *file_ptr = fopen(meminfo_file_name, "r");
+    FILE *file_ptr = fopen(pi_mem_info_get_file_name(), "r");
     bool found_value = false;
 
     if(file_ptr != NULL) {
@@ -61,7 +65,7 @@ bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribut
         }
     }
     else {
-        ERROR_LOG("meminfo not found: %s", meminfo_file_name);
+        ERROR_LOG("meminfo not found: %s", pi_mem_info_get_file_name());
     }
 
     fclose(file_ptr);

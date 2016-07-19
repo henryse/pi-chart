@@ -25,48 +25,46 @@
 **********************************************************************/
 
 #include <memory.h>
-#include <stdlib.h>
 #include "pi_mem_info.h"
 #include "stdio.h"
 #include "pi_utils.h"
 
 bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribute) {
 
-    // TODO(CHART-2): need to return the actual Value.  The values can be found in
-    // cat /proc/meminfo on linux and we need to find the same for the emulator.
-    // for the emulator we should use the local /proc/meminfo file
-
     #ifdef __MACH__
         // Mac OS Emulator code
-
-
-    FILE *fp = fopen("./proc/meminfo", "r");
-
-    if(fp == 0) {
-        ERROR_LOG("Value not found: %s", attribute);
-        return false;
-    }
-
-    char buffer[255];
-    memory_clear(buffer, sizeof(buffer));
-
-    char *ptr_to_token = NULL;
-
-    while(*fgets(buffer, 255, fp) != EOF){
-        ptr_to_token = strtok(buffer, ": ");
-        if(strcmp(ptr_to_token,attribute) == 0) {
-            fclose(fp);
-            pi_string_append_str(output_string, strtok(NULL, ": "));
-            return true;
-        }
-        memory_clear(buffer, sizeof(buffer));
-    }
-
-    fclose(fp);
-
+        //
+        const char *meminfo_file_name = "./proc/meminfo";
     #else
-        // Linux
+        const char *meminfo_file_name = "/proc/meminfo";
     #endif
 
-    return false;
+    FILE *file_ptr = fopen(meminfo_file_name, "r");
+    bool found_value = false;
+
+    if(file_ptr != NULL) {
+        const size_t buffer_size = 256;
+        char buffer[buffer_size];
+        memory_clear(buffer, sizeof(buffer));
+
+        char *ptr_to_token = NULL;
+
+        while(*fgets(buffer, (buffer_size-1), file_ptr) != EOF){
+            ptr_to_token = strtok(buffer, ": ");
+            if(strcmp(ptr_to_token, attribute) == 0) {
+                pi_string_append_str(output_string, strtok(NULL, ": "));
+                found_value = true;
+                break;
+            }
+
+            memory_clear(buffer, sizeof(buffer));
+        }
+    }
+    else {
+        ERROR_LOG("meminfo not found: %s", meminfo_file_name);
+    }
+
+    fclose(file_ptr);
+
+    return found_value;
 }

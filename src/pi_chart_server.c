@@ -151,6 +151,15 @@ void http_html_clean_string(pi_string_ptr request_path) {
             case '!':
                 // Don't want any of these....
                 break;
+            case '.':
+                // Look for .. and remove it.
+                //
+                if ( pi_string_c_string(request_path)[i + 1] == '.'){
+                    // Skip over ..
+                    //
+                    i++;
+                    break;
+                }
             default:
                 pi_string_append_char(clean_buffer, c);
                 break;
@@ -191,6 +200,7 @@ bool http_html_monitor_page(pi_string_ptr response,
     }
 
     // Build file name
+    //
     pi_string_ptr source_file = pi_string_new(pi_string_c_string_length(request_path) + 32);
     pi_string_sprintf(source_file, "%s%s", get_file_directory(), pi_string_c_string(request_path));
 

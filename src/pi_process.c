@@ -24,19 +24,32 @@
 //
 **********************************************************************/
 
+#include <stdio.h>
+#include <memory.h>
 #include "pi_process.h"
+#include "pi_utils.h"
 
-
-bool pi_process_find(bool *value, const char symbol) {
+bool pi_process_exist(bool *value, const char *symbol) {
     *value = false;
-    // TODO(CHART-3): find the process name in the process list, if you find it then set value=true else false...
-    // Should this be case insensitive?  Not sure.
 
-#ifdef __MACH__
-    // Mac OS Emulator code
-#else
-    // Linux
-#endif
+    FILE *output = popen("ps -ax | awk '{ print $4 }' | awk -F\"/\" '{ print $NF }'", "r");
+
+    if (!output) {
+        return false;
+    }
+
+    char buffer[1024];
+    memory_clear(buffer, sizeof(buffer));
+
+    while (NULL != fgets(buffer, sizeof(buffer), output)){
+        if (strcmp(buffer, symbol)){
+            *value = true;
+            break;
+        }
+        memory_clear(buffer, sizeof(buffer));
+    }
+
+    pclose(output);
 
     return true;
 }

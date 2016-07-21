@@ -41,7 +41,7 @@ const char *pi_mem_info_get_file_name(){
 #endif
 }
 
-bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribute) {
+bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *symbol) {
 
     FILE *file_ptr = fopen(pi_mem_info_get_file_name(), "r");
     bool found_value = false;
@@ -55,7 +55,7 @@ bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribut
 
         while(*fgets(buffer, (buffer_size-1), file_ptr) != EOF){
             ptr_to_token = strtok(buffer, ": ");
-            if(strcmp(ptr_to_token, attribute) == 0) {
+            if(strcmp(ptr_to_token, symbol) == 0) {
                 pi_string_append_str(output_string, strtok(NULL, ": "));
                 found_value = true;
                 break;

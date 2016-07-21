@@ -134,7 +134,7 @@ bool function_boolean(void __unused *context_ptr,
     }
 
     if (pi_chart_compare_tag(symbol, process_tag)) {
-        return pi_process_find(value, symbol[strlen(mem_info_tag)]);
+        return pi_process_exist(value, symbol + strlen(process_tag));
     }
 
     return false;

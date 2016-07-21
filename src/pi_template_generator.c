@@ -351,11 +351,14 @@ pi_template_error_t pi_template_generate_output(pi_string_ptr input_buffer,
         }
 
         bool bool_value = false;
-        operator_type_t operator_type = pi_template_lookup_symbol(&ptg_context, ptr_in, symbol_buffer,
+        operator_type_t operator_type = pi_template_lookup_symbol(&ptg_context,
+                                                                  ptr_in,
+                                                                  symbol_buffer,
                                                                   &bool_value);
         switch (operator_type) {
             case operator_type_invalid:
             default:
+                ERROR_LOG("Invalid Operator Type at offset %d.", ptr_EOF - ptr_in);
                 break;
             case operator_type_variable:
             case operator_type_output:

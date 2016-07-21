@@ -29,6 +29,6 @@
 
 #include <stdbool.h>
 
-bool pi_process_find(bool *value, const char symbol);
+bool pi_process_exist(bool *value, const char *symbol);
 
 #endif //PI_CHART_PI_PROCESS_H

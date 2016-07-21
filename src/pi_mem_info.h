@@ -30,6 +30,6 @@
 #include <stdbool.h>
 #include "pi_string.h"
 
-bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *attribute);
+bool pi_mem_info_get_attribute(pi_string_ptr output_string, const char *symbol);
 
 #endif //PI_CHART_PI_MEM_INFO_H

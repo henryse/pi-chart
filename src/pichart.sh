@@ -28,7 +28,7 @@ case "$1" in
     log_message "Starting pi-chart...";
     if [ -z "${process_id}" ]; then
         log_message "pi-chart starting up";
-        /bin/bash -c "/usr/local/bin/pi-chart --port=80 --directory=/home/pi/pi-chart/src --daemon=true";
+        /bin/bash -c "/usr/local/bin/pi-chart --port=8090 --directory=/home/pi/pi-chart/src &";
     else
         log_message "pi-chart is already running: ${process_id}";
     fi

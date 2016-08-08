@@ -33,7 +33,7 @@
 
 bool run_as_daemon = false;
 pid_t process_id = 0;
-unsigned short server_port = 8080;
+unsigned short server_port = 8090;
 bool service_running = false;
 char *default_directory = ".";
 pi_string_ptr file_directory = NULL;

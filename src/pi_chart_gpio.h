@@ -32,7 +32,7 @@ typedef enum {
     HIGH_SIGNAL = 1
 } gpio_signal;
 
-void setup_wring_pi();
+void setup_wiring_pi();
 
 const char *gpio_get_str(unsigned char pin);
 

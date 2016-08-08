@@ -188,7 +188,7 @@ int main(int argc, const char *argv[]) {
 
         fork_process();
 
-        setup_wring_pi();
+        setup_wiring_pi();
 
         create_logs();
 

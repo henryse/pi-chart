@@ -48,7 +48,11 @@
 #define gpio_pin_count 26
 gpio_signal gpio_list[gpio_pin_count];
 
+gpio_mode gpio_mode_list[gpio_pin_count];
+
 #endif
+
+static char *gpio_modes [] = {"IN", "OUT", "ALT5", "ALT4", "ALT0", "ALT1", "ALT2", "ALT3"} ;
 
 void setup_wiring_pi() {
 
@@ -60,11 +64,12 @@ void setup_wiring_pi() {
 
     for (int i = 0; i < gpio_pin_count; i++) {
         gpio_list[i] = LOW_SIGNAL;
+        gpio_mode_list[i] = MODE_IN;
     }
 #endif
 }
 
-gpio_signal gpio_get_int(unsigned char pin) {
+gpio_signal gpio_get_digital(unsigned char pin) {
     gpio_signal result = LOW_SIGNAL;
 
 #ifndef ENABLE_PI_EMULATOR
@@ -78,11 +83,15 @@ gpio_signal gpio_get_int(unsigned char pin) {
     return result;
 }
 
-const char *gpio_get_str(unsigned char pin) {
-    return gpio_get_int(pin) == LOW_SIGNAL ? "LOW" : "HIGH";
+const char *gpio_get_digital_str(unsigned char pin) {
+    return gpio_get_digital(pin) == LOW_SIGNAL ? "LOW" : "HIGH";
 }
 
-gpio_signal gpio_set_int(unsigned char pin, gpio_signal value) {
+const char *gpio_get_mode_str(unsigned char pin) {
+    return gpio_modes[gpio_get_mode(pin)];
+}
+
+gpio_signal gpio_set_digital(unsigned char pin, gpio_signal value) {
     gpio_signal result = LOW_SIGNAL;
 
 #ifndef ENABLE_PI_EMULATOR
@@ -97,4 +106,19 @@ gpio_signal gpio_set_int(unsigned char pin, gpio_signal value) {
 
     return result;
 }
+
+gpio_mode gpio_get_mode(unsigned char pin) {
+    gpio_mode result = MODE_IN;
+
+#ifndef ENABLE_PI_EMULATOR
+    result = getAlt(pin);
+#else
+    if (pin < gpio_pin_count) {
+        result = gpio_mode_list[pin];
+    }
+#endif
+
+    return result;
+}
+
 #pragma clang diagnostic pop

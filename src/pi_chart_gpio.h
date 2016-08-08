@@ -24,6 +24,8 @@
 //
 **********************************************************************/
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 #ifndef PI_CHART_PI_CHART_GPIO_H
 #define PI_CHART_PI_CHART_GPIO_H
 
@@ -32,13 +34,29 @@ typedef enum {
     HIGH_SIGNAL = 1
 } gpio_signal;
 
+typedef enum {
+    MODE_IN = 0,
+    MODE_OUT,
+    MODE_ALT5,
+    MODE_ALT4,
+    MODE_ALT0,
+    MODE_ALT1,
+    MODE_ALT2,
+    MODE_ALT3,
+}gpio_mode;
+
 void setup_wiring_pi();
 
-const char *gpio_get_str(unsigned char pin);
+const char *gpio_get_digital_str(unsigned char pin);
 
-gpio_signal gpio_get_int(unsigned char pin);
+gpio_signal gpio_get_digital(unsigned char pin);
 
-gpio_signal gpio_set_int(unsigned char pin, gpio_signal value);
+gpio_signal gpio_set_digital(unsigned char pin, gpio_signal value);
 
+const char *gpio_get_mode_str(unsigned char pin);
+
+gpio_mode gpio_get_mode(unsigned char pin);
 
 #endif //PI_CHART_PI_CHART_GPIO_H
+
+#pragma clang diagnostic pop

@@ -96,7 +96,8 @@ size_t http_read_line(int socket, pi_string_ptr output_string) {
 //                          string:  return pid
 //                          boolean: return true if running and false it not running
 
-const char *gpio_tag = "gpio.";
+const char *gpio_digital_tag = "gpio.digital";
+const char *gpio_mode_tag = "gpio.mode";
 const char *mem_info_tag = "meminfo.";
 const char *process_tag = "process.";
 
@@ -108,9 +109,15 @@ bool function_string(void __unused *context_ptr,
                      const char *symbol,
                      pi_string_ptr output_string) {
 
-    if (pi_chart_compare_tag(symbol, gpio_tag)) {
-        int pin = atoi(&symbol[strlen(gpio_tag)]);
-        pi_string_append_str(output_string, gpio_get_str((unsigned char) pin));
+    if (pi_chart_compare_tag(symbol, gpio_digital_tag)) {
+        int pin = atoi(&symbol[strlen(gpio_digital_tag)]);
+        pi_string_append_str(output_string, gpio_get_digital_str((unsigned char) pin));
+        return true;
+    }
+
+    if (pi_chart_compare_tag(symbol, gpio_mode_tag)) {
+        int pin = atoi(&symbol[strlen(gpio_mode_tag)]);
+        pi_string_append_str(output_string, gpio_get_mode_str((unsigned char) pin));
         return true;
     }
 
@@ -128,7 +135,7 @@ bool function_boolean(void __unused *context_ptr,
     if (strncmp(symbol, "gpio.", 5) == 0) {
         if (value) {
             int pin = atoi(&symbol[5]);
-            *value = gpio_get_int((unsigned char) pin) != 0;
+            *value = gpio_get_digital((unsigned char) pin) != 0;
         }
         return true;
     }

@@ -29,13 +29,22 @@ project(pi-chart)
 
 set(PI_CHART_VERSION "pi-chart-version-v1.0.0")
 
+# Check to see if we are running on a Raspberry PI
+#
+if(EXISTS "/opt/vc/include/bcm_host.h")
+    MESSAGE("-- bcm_host.h found, we must be on a Raspberry PI")
+    set(BCMHOST found)
+else()
+    MESSAGE("-- bcm_host.h not found we must NOT on in a Raspberry PI")
+endif()
+
 # Set The correct compiler
 #
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_C_FLAGS "-std=gnu99")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     if(DEFINED BCMHOST)
-        set(CMAKE_C_FLAGS "-std=gnu99 -lwiringPi -lwiringPiDev -pthread -lrt")
+        set(CMAKE_C_FLAGS "-std=gnu99 -lwiringPi -pthread -lrt")
     else()
         set(CMAKE_C_FLAGS "-std=gnu99 -pthread -lrt")
     endif()
@@ -57,7 +66,19 @@ set(SOURCE_FILES
         pi_strmap.c
         pi_strmap.h
         pi_chart_server.c
-        pi_chart_server.h pi_chart_settings.c pi_chart_settings.h pi_chart_gpio.c pi_chart_gpio.h pi_intmap.c pi_intmap.h pi_intmap.c pi_intmap.h pi_mem_info.c pi_mem_info.h pi_process.c pi_process.h)
+        pi_chart_server.h
+        pi_chart_settings.c
+        pi_chart_settings.h
+        pi_chart_gpio.c
+        pi_chart_gpio.h
+        pi_intmap.c
+        pi_intmap.h
+        pi_intmap.c
+        pi_intmap.h
+        pi_mem_info.c
+        pi_mem_info.h
+        pi_process.c
+        pi_process.h)
 
 add_executable(pi-chart ${SOURCE_FILES})
 

@@ -53,7 +53,7 @@ gpio_signal gpio_list[gpio_pin_count];
 void setup_wiring_pi() {
 
 #ifndef ENABLE_PI_EMULATOR
-    INFO_LOG("Setting up WiringPi")
+    INFO_LOG("Setting up WiringPi");
     wiringPiSetup();
 #else
     INFO_LOG("WARNING: Running in emulation mode");

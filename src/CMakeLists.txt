@@ -78,7 +78,9 @@ set(SOURCE_FILES
         pi_mem_info.c
         pi_mem_info.h
         pi_process.c
-        pi_process.h)
+        pi_process.h
+        pi_am2315.c
+        pi_am2315.h)
 
 add_executable(pi-chart ${SOURCE_FILES})
 
